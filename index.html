@@ -3,39 +3,60 @@
 <head>
 	<title>IPCV</title>
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-	<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono|Raleway' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono|Raleway|Open+Sans|Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="css/ipcv.css" />
-	<script src="js/jquery.min.js"></script>
-	<script src="js/jquery.xdomainajax.js"></script>
-	<script src="js/ingress.js"></script>
 </head>
 <body>
-	<div class="container">
-		<div class="col-md-12">
-			<h1 id="page-title">Ingress Passcodes Community Verifier - <em>IPCV</em></h1>
-		</div>
+	<div id="upper">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h1 id="page-title">IPCV (<em>Ingress Passcodes Community Verifier</em>)</h1>
+				</div>
+			</div>			
 
-		<div class="col-md-3 omega">
-			<h4 class="section-title"><span class="glyphicon glyphicon-cog"></span> Configura&ccedil;&otilde;es</h4>
+			<div class="row">
+				<div class="col-md-2 omega">
+					<h4 class="section-title"><span class="glyphicon glyphicon-cog"></span> Configura&ccedil;&otilde;es</h4>
 
-			<form class="down20" role="form">
-				<div class="form-group">
-					<label for="interval">Intervalo</label>
-					<div class="input-group">
-						<input type="text" class="form-control" value="1">
-						<span class="input-group-addon">minuto(s)</span>
+					<form class="down20" role="form">
+						<div class="form-group">
+							<label for="interval">Intervalo</label>
+							<div class="input-group">
+								<input type="text" class="form-control" disabled="disabled" value="1">
+								<span class="input-group-addon">minuto(s)</span>
+							</div>
+						</div>
+						<button type="button" class="btn btn-primary" disabled="disabled" title="reinicia o timer com o novo valor informado no campo acima">reiniciar</button>
+						<button type="button" class="btn btn-danger" disabled="disabled" title="para o timer">parar</button>
+					</form>
+				</div>
+
+				<div class="col-md-10 alpha">
+					<h4 class="section-title"><span class="glyphicon glyphicon-list"></span> Hist&oacute;rico</h4>
+					<div id="posts" class="down45">
 					</div>
 				</div>
-				<button type="button" class="btn btn-primary" title="reinicia o timer com o novo valor informado no campo acima">reiniciar</button>
-				<button type="button" class="btn btn-danger" title="para o timer">parar</button>
-			</form>
-		</div>
-
-		<div class="col-md-9 alpha">
-			<h4 class="section-title"><span class="glyphicon glyphicon-list"></span> Hist&oacute;rico</h4>
-			<div id="posts down20">
 			</div>
 		</div>
 	</div>
+	<div id="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4">
+					<address>
+						<strong>@pimpolho</strong><br />
+						Bras&iacute;lia-DF, Brasil<br>
+						<abbr title="E-mail">M:</abbr> <a href="mailto:crechegirinofeliz@gmail.com">crechegirinofeliz@gmail.com</a>
+					</address>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="js/jquery.min.js"></script>
+	<script src="js/jquery.xdomainajax.js"></script>
+	<script src="js/ingress.messages.pt-BR.js"></script>
+	<script src="js/ingress.js"></script>
 </body>
 </html>

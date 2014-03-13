@@ -1,6 +1,6 @@
 /* ****************************************************************************
  * Ingress Passcode Community Verifier (IPCV) is a Javascript routine that will
- * verify every user given time (in minutes) is a new passcode has been posted
+ * verify every user given time (in minutes) if a new passcode has been posted
  * to the Google Plus community "Ingress Passcodes".
  * If a new passcode has been posted to the community, IPCV will send an e-mail
  * to a list of addresses so agents get notified in time by their smartphones.
@@ -14,23 +14,27 @@
  * - jQuery XDomain Ajax (http://github.com/padolsey/)
  */
 
-// Id do timer global, será usado para pará-lo posteriormente
+// Global timer id. Will be used to stop it later
 var globalTimerId = 0;
-// Id do timer de recuperação, será usado para pará-lo posteriormente
+// Search timer id. Will be used to stop it later
 var timerId = 0;
-// Tempo decorrido desde o início da pesquisa 
+// Time elapsed doing the search
 var timeElapsed = 0;
-// Tempo máximo a ser esperado
-var maxTime = 5;
-// Indica que houve timeout na pesquisa
+// Maximum time to wait before launch timeout message and stop message
+var maxTime = 10;
+// Flag that indicates that the search timedout
 var timedOut = false;
-// Indica que a pesquisa foi realizada com sucesso
+// Flag that indicates if the search was done successfully
 var done = false;
-// Armazena o último passcode postado na comunidade
+// Stores th last passcode posted in the community
 var lastPasscode = '@pimpolho';
 
+// Used for testing purposes wil be removed later
+var fake = false;
+
 /**
- * Inicia o timer que contará o tempo decorrido na pesquisa. Se esse tempo atingir o valor máximo a ser esperado configura as variáveis de timeout 
+ * Starts the timer that will count time elapsed in the search.
+ * If this time gets to the value of 'maxTime' variable, this routine sets all the timeout flags.
  */
 function initTimerPesquisa()
 {
@@ -41,14 +45,12 @@ function initTimerPesquisa()
 		
 		if (timeElapsed == maxTime)
 		{
-			// Se a pesquisa não foi realizada com sucesso... 
+			// If search fails... 
 			if (!done)
 			{
-				// Se ocorrer o timeout, 
 				timedOut = true;
-				// Grava log do timeout...
-				$('#posts').append('<p style="color: red;">Conexão lenta ou computador desconectado. Timeout ao pesquisar por passcodes...</p>');
-				console.log('Conexão lenta ou computador desconectado. Timeout ao pesquisar por passcodes...');
+				$('#posts').append('<p class="timeout">[' + currentTime() + '] ' + e001_timeout + '</p>');
+				console.log('[' + currentTime() + '] ' + e001_timeout);
 			}
 			stopTimerPesquisa();
 		}
@@ -69,6 +71,30 @@ function stopTimerPesquisa()
 function passcodeRetriever(){
 	done = false;
 	timedOut = false;
+
+	if (fake)
+	{
+		debugger;
+		var hora = new Date();
+		var tempPasscode = 'teste_' + hora.getMilliseconds();
+		if (lastPasscode == '@pimpolho')
+		{
+			lastPasscode = tempPasscode;
+			addInitialPasscode();
+		}
+		else
+		{
+			if (tempPasscode !== lastPasscode){
+				lastPasscode = tempPasscode;
+				addPasscode(tempPasscode);
+			}
+			else
+			{
+				addNoPasscodeWarning();
+			}
+		}
+		return;
+	}
 	
 	// Inicia o timer...
 	initTimerPesquisa();
@@ -81,7 +107,7 @@ function passcodeRetriever(){
 			// Se tiver ocorrido timeout saia da função
 			if (timedOut)
 				return;
-			
+
 			var posts = $(res.responseText).find('div.Ct');
 			if (posts.length > 0)
 			{
@@ -95,8 +121,8 @@ function passcodeRetriever(){
 				}
 				else
 				{
-					lastPasscode = tempPasscode;
 					if (tempPasscode !== lastPasscode){
+						lastPasscode = tempPasscode;
 						addPasscode(tempPasscode);
 					}
 					else
@@ -114,7 +140,7 @@ function passcodeRetriever(){
 		error: function(res) {
 			if (timedOut)
 				return;
-			console.log('Erro ao pesquisar por passcodes...');
+			console.log(e002_ajax_error);
 			console.log(res);
 			done = true;
 			// Para o timer
@@ -136,9 +162,9 @@ function currentTime(){
 	var now = new Date();
 	var result = '';
 	// day
-	result += numberFormatter(now.getDate(), 2);
+	result += numberFormatter(now.getDate(), 2) + '/';
 	// month
-	result += numberFormatter(now.getMonth(), 2)
+	result += numberFormatter(now.getMonth(), 2) + '/';
 	// year
 	result += numberFormatter(now.getFullYear(), 2) + ' ';
 	// Hour
@@ -154,15 +180,15 @@ function currentTime(){
 }
 
 function addNoPasscodeWarning(){
-	$('#posts').append('<p class="no_passcode">[' + currentTime() + '] Nenhum passcode novo.</p>');
+	$('#posts').prepend('<p class="no_passcode">[' + currentTime() + '] ' + s001_no_passcode + '</p>');
 }
 
 function addPasscode(passcode){
-	$('#posts').append('<p class="new_passcode">[' + currentTime() + '] ' + passcode + '</p>');
+	$('#posts').prepend('<p class="new_passcode">[' + currentTime() + '] ' + s002_new_passcode + passcode + '</p>');
 }
 
 function addInitialPasscode(){
-	$('#posts').append('<p class="init">[' + currentTime() + '] Último passcode enviado: <strong>' + lastPasscode + '</strong></p>');
+	$('#posts').prepend('<p class="init">[' + currentTime() + '] ' + s003_init + '<strong>' + lastPasscode + '</strong></p>');
 }
 
 
@@ -187,6 +213,10 @@ function stopGlobalTimer()
 
 
 $(document).ready(function(){
-	// passcodeRetriever();
-	// initGlobalTimer();
+	passcodeRetriever();
+	initGlobalTimer();
+	$(document).unload(function(){
+		stopTimerPesquisa();
+		stopGlobalTimer();
+	});
 });

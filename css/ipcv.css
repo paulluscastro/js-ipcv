@@ -22,9 +22,49 @@ h4.section-title span{
 #posts{
 	font-family: 'Ubuntu Mono', 'Lucida Sans Console', mono;
 	font-size: 10px;
-	border: 1px solid black;
 }
 
 .down20{
 	margin-top: 20px;
+}
+
+.down45{
+	margin-top: 45px;
+}
+
+.init{
+	color: #000;
+}
+
+.timeout{
+	color: #f00;
+}
+
+.no_passcode{
+	color: #000;
+}
+.new_passcode{
+	color: #11f;
+}
+
+#upper{
+	width: 100%;
+	position: fixed;
+	top: 0px;
+	bottom: 64px;
+	overflow-y: auto;
+}
+
+#footer{
+	height: 64px;
+	width: 100%;
+	position: fixed;
+	bottom: 0px;
+	background-color: #237490;
+	color: #fff;
+	font-family: 'Open Sans Condensed', sans-serif;
+}
+
+#footer a{
+	color: #fff;
 }
