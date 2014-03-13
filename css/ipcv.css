@@ -1,18 +1,30 @@
 body{
-	background-color: black;
-	color: #0F0;
+	font-family: 'Raleway', sans-serif;
 }
 
-button{
-	background-color: #00AE00;
-	color: black;
-	border: 1px solid black;
-	border-radius: 3px;
+#page-title{
+	font-size: 3.5em;
 }
 
-button:hover{
-	background-color: #00FF00;
-	color: black;
+h4.section-title{
+	font-weight: bold;	
+}
+
+h4.section-title span{ 
+	font-weight: normal;
+}
+
+#messages-log{
+	font-family: 'Raleway', sans-serif;
+	font-size: 1em;
+}
+
+#posts{
+	font-family: 'Ubuntu Mono', 'Lucida Sans Console', mono;
+	font-size: 10px;
 	border: 1px solid black;
-	border-radius: 3px;
+}
+
+.down20{
+	margin-top: 20px;
 }

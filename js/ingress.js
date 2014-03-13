@@ -174,7 +174,7 @@ function initGlobalTimer()
 	stopGlobalTimer();
 	globalTimerId = setInterval(function(){
 		passcodeRetriever();
-	}, 10000);
+	}, 60000);
 }
 
 /**
@@ -187,7 +187,6 @@ function stopGlobalTimer()
 
 
 $(document).ready(function(){
-	debugger;
-	passcodeRetriever();
-	initGlobalTimer();
+	// passcodeRetriever();
+	// initGlobalTimer();
 });
