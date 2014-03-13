@@ -87,17 +87,22 @@ function passcodeRetriever(){
 			{
 				var tempPasscode = posts[0].innerText.trim();
 
-				if (tempPasscode !== lastPasscode){
-					if (lastPasscode == '@pimpolho')
-						addInitialPasscode();
-					else
-						addPasscode(tempPasscode);
-					
+				// Se for a primeira iteração, adicionar a mensagem inicial
+				if (lastPasscode == '@pimpolho')
+				{
 					lastPasscode = tempPasscode;
+					addInitialPasscode();
 				}
 				else
 				{
-					addNoPasscodeWarning();
+					lastPasscode = tempPasscode;
+					if (tempPasscode !== lastPasscode){
+						addPasscode(tempPasscode);
+					}
+					else
+					{
+						addNoPasscodeWarning();
+					}
 				}
 			}
 
@@ -119,19 +124,45 @@ function passcodeRetriever(){
 	});
 }
 
-function addNoPasscodeWarning(){
+function numberFormatter(number, size){
+	var result = String(number);
+	while(result.length < size){
+		result = '0' + result;
+	}
+	return result;
+}
+
+function currentTime(){
 	var now = new Date();
-	$('#posts').append('<p class="no_passcode">[' + now + '] Nenhum passcode novo.</p>');
+	var result = '';
+	// day
+	result += numberFormatter(now.getDate(), 2);
+	// month
+	result += numberFormatter(now.getMonth(), 2)
+	// year
+	result += numberFormatter(now.getFullYear(), 2) + ' ';
+	// Hour
+	result += numberFormatter(now.getHours(), 2) + ':' ;
+	// Minutes
+	result += numberFormatter(now.getMinutes(), 2) + ':' ;
+	// Seconds
+	result += numberFormatter(now.getSeconds(), 2) + '.' ;
+	// Milliseconds
+	result += numberFormatter(now.getMilliseconds(), 3);
+
+	return  result;
+}
+
+function addNoPasscodeWarning(){
+	$('#posts').append('<p class="no_passcode">[' + currentTime() + '] Nenhum passcode novo.</p>');
 }
 
 function addPasscode(passcode){
-	var now = new Date();
-	$('#posts').append('<p class="new_passcode">[' + now + '] ' + passcode + '</p>');
+	$('#posts').append('<p class="new_passcode">[' + currentTime() + '] ' + passcode + '</p>');
 }
 
-function addInitialPasscode(passcode){
-	var now = new Date();
-	$('#posts').append('<p class="init">[' + now + '] Último passcode enviado: <strong>' + passcode + '</strong></p>');
+function addInitialPasscode(){
+	$('#posts').append('<p class="init">[' + currentTime() + '] Último passcode enviado: <strong>' + lastPasscode + '</strong></p>');
 }
 
 
