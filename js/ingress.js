@@ -21,7 +21,7 @@ var timerId = 0;
 // Time elapsed doing the search
 var timeElapsed = 0;
 // Maximum time to wait before launch timeout message and stop message
-var maxTime = 10;
+var maxTime = 30;
 // Flag that indicates that the search timedout
 var timedOut = false;
 // Flag that indicates if the search was done successfully
@@ -29,7 +29,7 @@ var done = false;
 // Stores th last passcode posted in the community
 var lastPasscode = '@pimpolho';
 
-// Used for testing purposes wil be removed later
+// Used for testing purposes will be removed later
 var fake = false;
 
 /**
@@ -96,7 +96,7 @@ function passcodeRetriever(){
 		return;
 	}
 	
-	// Inicia o timer...
+	// Initiates search timer
 	initTimerPesquisa();
 	
 	$.ajax({
@@ -104,7 +104,7 @@ function passcodeRetriever(){
 		type: 'GET',
 		async: false,
 		success: function(res) {
-			// Se tiver ocorrido timeout saia da função
+			// If timed out  get out of the function
 			if (timedOut)
 				return;
 
@@ -113,7 +113,7 @@ function passcodeRetriever(){
 			{
 				var tempPasscode = posts[0].innerText.trim();
 
-				// Se for a primeira iteração, adicionar a mensagem inicial
+				// If first iteraction at all, stores first passcode and gives initial message
 				if (lastPasscode == '@pimpolho')
 				{
 					lastPasscode = tempPasscode;
@@ -133,7 +133,7 @@ function passcodeRetriever(){
 			}
 
 			done = true;
-			// Para o timer
+			// Stops search timer
 			if (!timedOut)
 				stopTimerPesquisa();
 		},
@@ -143,7 +143,7 @@ function passcodeRetriever(){
 			console.log(e002_ajax_error);
 			console.log(res);
 			done = true;
-			// Para o timer
+			// Stops search timer
 			if (!timedOut)
 				stopTimerPesquisa();
 		}
@@ -193,7 +193,7 @@ function addInitialPasscode(){
 
 
 /**
- * inicializa o timer global
+ * initializes global timer
  */
 function initGlobalTimer()
 {
@@ -204,15 +204,15 @@ function initGlobalTimer()
 }
 
 /**
- * Finaliza o timer global
+ * Stops global timer
  */
 function stopGlobalTimer()
 {
 	clearInterval(globalTimerId);
 }
 
-
 $(document).ready(function(){
+	pageLocalizer();
 	passcodeRetriever();
 	initGlobalTimer();
 	$(document).unload(function(){

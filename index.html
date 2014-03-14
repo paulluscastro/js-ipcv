@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 <head>
 	<title>IPCV</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
 	<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono|Raleway|Open+Sans|Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="css/ipcv.css" />
@@ -17,7 +18,7 @@
 
 			<div class="row">
 				<div class="col-md-2 omega">
-					<h4 class="section-title"><span class="glyphicon glyphicon-cog"></span> Configura&ccedil;&otilde;es</h4>
+					<h4 class="section-title" id="settings"><span class="glyphicon glyphicon-cog"></span> Configura&ccedil;&otilde;es</h4>
 
 					<form class="down20" role="form">
 						<div class="form-group">
@@ -27,13 +28,13 @@
 								<span class="input-group-addon">minuto(s)</span>
 							</div>
 						</div>
-						<button type="button" class="btn btn-primary" disabled="disabled" title="reinicia o timer com o novo valor informado no campo acima">reiniciar</button>
-						<button type="button" class="btn btn-danger" disabled="disabled" title="para o timer">parar</button>
+						<button type="button" id="reset" class="btn btn-primary" disabled="disabled" title="reinicia o timer com o novo valor informado no campo acima">reiniciar</button>
+						<button type="button" id="stop" class="btn btn-danger" disabled="disabled" title="para o timer">parar</button>
 					</form>
 				</div>
 
 				<div class="col-md-10 alpha">
-					<h4 class="section-title"><span class="glyphicon glyphicon-list"></span> Hist&oacute;rico</h4>
+					<h4 class="section-title" id="log"><span class="glyphicon glyphicon-list"></span> Hist&oacute;rico</h4>
 					<div id="posts" class="down45">
 					</div>
 				</div>
@@ -47,7 +48,7 @@
 					<address>
 						<strong>@pimpolho</strong><br />
 						Bras&iacute;lia-DF, Brasil<br>
-						<abbr title="E-mail">M:</abbr> <a href="mailto:crechegirinofeliz@gmail.com">crechegirinofeliz@gmail.com</a>
+						<span class="glyphicon glyphicon-envelope"></span> <a href="mailto:crechegirinofeliz@gmail.com">crechegirinofeliz@gmail.com</a>
 					</address>
 				</div>
 			</div>
