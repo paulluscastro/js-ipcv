@@ -5,6 +5,8 @@ var s001_no_passcode = 'No new passcode.';
 var s002_new_passcode = 'New passcode: ';
 var s003_init = 'Last sent passcode: ';
 
+var d001_loading = 'Loading...';
+
 function pageLocalizer(){
 	$('#settings').html('<span class="glyphicon glyphicon-cog"></span> Settings');
 	$('#reset').val('reset');

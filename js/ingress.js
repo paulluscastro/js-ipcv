@@ -21,7 +21,7 @@ var timerId = 0;
 // Time elapsed doing the search
 var timeElapsed = 0;
 // Maximum time to wait before launch timeout message and stop message
-var maxTime = 30;
+var maxTime = 15;
 // Flag that indicates that the search timedout
 var timedOut = false;
 // Flag that indicates if the search was done successfully
@@ -32,13 +32,20 @@ var lastPasscode = '@pimpolho';
 // Used for testing purposes will be removed later
 var fake = false;
 
+function addLoading(){
+	$('#posts').prepend('<p id="loading"><img src="img/loading.gif" title="' + d001_loading + '" /></p>');
+}
+
+function removeLoading(){
+	$('#loading').remove();
+}
+
 /**
  * Starts the timer that will count time elapsed in the search.
  * If this time gets to the value of 'maxTime' variable, this routine sets all the timeout flags.
  */
 function initTimerPesquisa()
 {
-	stopTimerPesquisa();
 	timeElapsed = 0;
 	timerId = setInterval(function(){
 		timeElapsed++;
@@ -49,6 +56,7 @@ function initTimerPesquisa()
 			if (!done)
 			{
 				timedOut = true;
+				removeLoading();
 				$('#posts').append('<p class="timeout">[' + currentTime() + '] ' + e001_timeout + '</p>');
 				console.log('[' + currentTime() + '] ' + e001_timeout);
 			}
@@ -62,6 +70,7 @@ function initTimerPesquisa()
  */
 function stopTimerPesquisa()
 {
+	removeLoading();
 	clearInterval(timerId);
 }
 
@@ -69,8 +78,10 @@ function stopTimerPesquisa()
  * Retrieves last posted passcode on Ingress Passcodes Community
  */
 function passcodeRetriever(){
+	debugger;
 	done = false;
 	timedOut = false;
+	addLoading();
 
 	if (fake)
 	{
@@ -93,6 +104,7 @@ function passcodeRetriever(){
 				addNoPasscodeWarning();
 			}
 		}
+		removeLoading();
 		return;
 	}
 	
@@ -105,8 +117,10 @@ function passcodeRetriever(){
 		async: false,
 		success: function(res) {
 			// If timed out  get out of the function
-			if (timedOut)
+			if (timedOut){
+				stopTimerPesquisa();
 				return;
+			}
 
 			var posts = $(res.responseText).find('div.Ct');
 			if (posts.length > 0)
@@ -134,18 +148,16 @@ function passcodeRetriever(){
 
 			done = true;
 			// Stops search timer
-			if (!timedOut)
-				stopTimerPesquisa();
+			stopTimerPesquisa();
 		},
 		error: function(res) {
 			if (timedOut)
-				return;
+				stopTimerPesquisa();
 			console.log(e002_ajax_error);
 			console.log(res);
 			done = true;
 			// Stops search timer
-			if (!timedOut)
-				stopTimerPesquisa();
+			stopTimerPesquisa();
 		}
 	});
 }
